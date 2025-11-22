@@ -1,5 +1,7 @@
 import Styled, { createGlobalStyle } from 'styled-components';
 
+import { bgDark, colorPrimary, textMainDark } from '../configs/colors';
+
 export default createGlobalStyle`
   * {
     margin: 0;
@@ -13,10 +15,33 @@ export default createGlobalStyle`
     height: 100%;
   }
 
-`;
+  body {
+    background: ${bgDark};
+  }
+
+  a {
+    text-decoration: none;
+    outline: none;
+  }
+
+  button {
+    cursor: pointer;
+    background-color: ${colorPrimary};
+    color: ${textMainDark};
+    width: 60px;
+    height: 25px;
+  }
+
+  `;
 
 export const Container = Styled.div`
+  margin: 4vw auto;
   max-width: 80vw;
-  margin: 5vw auto;
-  background: #d2d0d0ff;
+  background: #eee;
+  padding: 3vw;
+
+  p {
+    font-size: 35px;
+  }
+
 `;
