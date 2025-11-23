@@ -9,7 +9,6 @@ export default function Routes() {
   return (
     <Switch>
       <MyRouter exact path="/login" component={Login} />
-      <MyRouter exact path="/logout" component={Login} isClose />
       <MyRouter path="*" component={Erro404} />
     </Switch>
   );

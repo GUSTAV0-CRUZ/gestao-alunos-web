@@ -1,6 +1,7 @@
 import Styled, { createGlobalStyle } from 'styled-components';
 
-import { bgDark, colorPrimary, textMainDark } from '../configs/colors';
+import * as color from '../configs/colors';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default createGlobalStyle`
   * {
@@ -16,7 +17,14 @@ export default createGlobalStyle`
   }
 
   body {
-    background: ${bgDark};
+    background: ${color.bgDark};
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--success {
+    background: ${color.colorSuccess};
+  }
+  .Toastify__toast-theme--colored.Toastify__toast--error {
+    background: ${color.colorError};
   }
 
   a {
@@ -26,8 +34,8 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
-    background-color: ${colorPrimary};
-    color: ${textMainDark};
+    background-color: ${color.colorPrimary};
+    color: ${color.textMainDark};
     width: 60px;
     height: 25px;
   }
