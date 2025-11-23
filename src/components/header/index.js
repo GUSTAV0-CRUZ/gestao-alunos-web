@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Nav } from './styled';
 
 export default function Header() {
-  const teste = useSelector((state) => state.teste);
+  const example = useSelector((state) => state.example.example);
   return (
     <Nav>
       <Link to="/">
@@ -18,7 +18,7 @@ export default function Header() {
       <Link to="/logout">
         <FaSignInAlt />
       </Link>
-      {teste ? 'true' : 'false'}
+      {example ? 'true' : 'false'}
     </Nav>
   );
 }
