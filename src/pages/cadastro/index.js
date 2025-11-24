@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Container } from '../../styles/styledGlobal';
 
-export default function Login() {
+export default function Cadastro() {
   return (
     <Container>
-      <h1>Login</h1>
+      <h1>Cadastro</h1>
     </Container>
   );
 }
