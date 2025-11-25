@@ -12,7 +12,7 @@ export default function Header() {
       <Link to="/">
         <FaHome />
       </Link>
-      <Link to="/login">
+      <Link to="/register">
         <FaUserAlt />
       </Link>
       <Link to="/logout">

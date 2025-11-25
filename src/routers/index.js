@@ -6,7 +6,7 @@ import Login from '../pages/login';
 import Erro404 from '../pages/erro404';
 import Alunos from '../pages/alunos';
 import ManipulaAlunos from '../pages/manipulaAlunos';
-import Cadastro from '../pages/cadastro';
+import Cadastro from '../pages/register';
 import CriaAluno from '../pages/criaAluno';
 
 export default function Routes() {
