@@ -44,12 +44,19 @@ export default createGlobalStyle`
 
 export const Container = Styled.div`
   margin: 4vw auto;
-  max-width: 80vw;
+  max-width: 90vw;
   background: #eee;
   padding: 3vw;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px ${color.colorPrimary}, -2px -2px 4px ${color.colorPrimary};
 
   p {
     font-size: 35px;
+  }
+
+  h1 {
+    color: ${color.colorPrimary};
+    box-shadow: -2px 4px ${color.colorPrimary};
   }
 
 `;
