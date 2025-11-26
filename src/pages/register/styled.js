@@ -16,6 +16,7 @@ export const Form = styled.form`
   background-color: white;
 
   label {
+    margin-top: 0.4em;
     display: flex;
     font-size: 1.6em;
     font-family: 'Courier New', Courier, monospace;
@@ -39,18 +40,29 @@ export const Form = styled.form`
     input:focus {
       box-shadow: 3px 3px 5px black;
     }
+    input:hover {
+      box-shadow: 3px 3px 5px black;
+      transition: all 0.5s ease 0s;
+    }
   }
 
   button {
     margin-top: 10px;
-    width: 19em;
-    height: 2.5em;
+    width: 17em;
+    height: 2.7em;
     box-shadow: 3px 3px 5px black;
     box-shadow: 3px 3px 7px black, -3px -3px 7px white;
+  }
+
+  button:hover {
+    font-size: 0.87em;
+    transition: all 0.5s ease 0.1s;
   }
 `;
 
 export const DivForm = styled.div`
+  height: 20em;
+  max-height: 90vh;
   display: flex;
   justify-content: center;
   margin-top: 1em;
@@ -60,5 +72,4 @@ export const DivForm = styled.div`
   border-radius: 30px;
   border: solid ${colors.colorPrimary} 0.2em;
   box-shadow: 3px 3px 5px black;
-  max-width: 35em;
-`;
+  `;

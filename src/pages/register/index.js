@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
-import axios from '../../services/axios';
 
 import { Container } from '../../styles/styledGlobal';
 import { Form, DivForm } from './styled';
+import axios from '../../services/axios';
 import history from '../../services/history';
 
 export default function Cadastro() {
@@ -56,6 +56,7 @@ export default function Cadastro() {
       <h1>Cadastrar Usuário:</h1>
       <DivForm>
         <Form onSubmit={(e) => handleSubmit(e)}>
+          <h2>Realizar Cadastro</h2>
           <label htmlFor="nome">
             Nome:
             <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -68,7 +69,7 @@ export default function Cadastro() {
             Senha:
             <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
-          <button type="submit">Enviar</button>
+          <button type="submit">Confirmar</button>
         </Form>
       </DivForm>
     </Container>
