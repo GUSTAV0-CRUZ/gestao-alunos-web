@@ -5,8 +5,12 @@ import { Link } from 'react-router-dom';
 import axios from '../../services/axios';
 import { Container } from '../../styles/styledGlobal';
 import * as styled from './styled';
+import store from '../../store';
 
 export default function Alunos() {
+  const stateAuth = store.getState().auth;
+  console.log(stateAuth);
+
   const [alunos, setAlunos] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -15,6 +19,7 @@ export default function Alunos() {
     };
     getData();
   }, []);
+
   return (
     <Container>
       <h1>Alunos</h1>
@@ -26,14 +31,24 @@ export default function Alunos() {
             }
             return (<div><img src={aluno.Pictures[0].url} alt="" /></div>);
           };
+
+          const icone = () => {
+            if (stateAuth.isLogin) {
+              return (
+                <Link to={`/aluno/:${aluno.id}`}>
+                  <FaUserEdit className="icone-edit" />
+                </Link>
+              );
+            }
+            return '';
+          };
+
           return (
             <styled.DivAluno key={aluno.id}>
               {perfil()}
               <p>{`${aluno.nome} ${aluno.sobrenome}`}</p>
               <p className="p-email">{aluno.email}</p>
-              <Link to={`/aluno/:${aluno.id}`}>
-                <FaUserEdit className="icone-edit" />
-              </Link>
+              {icone()}
             </styled.DivAluno>
           );
         })
