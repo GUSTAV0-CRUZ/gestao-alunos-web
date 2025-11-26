@@ -13,7 +13,7 @@ export function authReducer(state = innitialState, action) {
       if (!action.payload.user) return state;
       innitialState.isLoggedIn = true;
       innitialState.dadosUser = action.payload.user;
-      innitialState.token = action.payload.jsonWebToken;
+      innitialState.token = `beare ${action.payload.jsonWebToken}`;
       // console.log(innitialState);
       return innitialState;
     }
