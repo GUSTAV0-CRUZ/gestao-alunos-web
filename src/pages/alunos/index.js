@@ -9,7 +9,7 @@ import store from '../../store';
 
 export default function Alunos() {
   const stateAuth = store.getState().auth;
-  console.log(stateAuth);
+  // console.log(stateAuth);
 
   const [alunos, setAlunos] = useState([]);
   useEffect(() => {
@@ -24,34 +24,20 @@ export default function Alunos() {
     <Container>
       <h1>Alunos</h1>
       {
-        alunos.map((aluno) => {
-          const perfil = () => {
-            if (aluno.Pictures.length === 0) {
-              return <FaRegUserCircle className="icone-faUser" />;
+        alunos.map((aluno) => (
+          <styled.DivAluno key={aluno.id}>
+            {
+              aluno.Pictures.length === 0 ? <FaRegUserCircle className="icone-faUser" /> : (<div><img src={aluno.Pictures[0].url} alt="" /></div>)
             }
-            return (<div><img src={aluno.Pictures[0].url} alt="" /></div>);
-          };
-
-          const icone = () => {
-            if (stateAuth.isLogin) {
-              return (
-                <Link to={`/aluno/:${aluno.id}`}>
-                  <FaUserEdit className="icone-edit" />
-                </Link>
-              );
-            }
-            return '';
-          };
-
-          return (
-            <styled.DivAluno key={aluno.id}>
-              {perfil()}
-              <p>{`${aluno.nome} ${aluno.sobrenome}`}</p>
-              <p className="p-email">{aluno.email}</p>
-              {icone()}
-            </styled.DivAluno>
-          );
-        })
+            <p>{`${aluno.nome} ${aluno.sobrenome}`}</p>
+            <p className="p-email">{aluno.email}</p>
+            {stateAuth.isLoggedIn && (
+              <Link to={`/aluno/:${aluno.id}`}>
+                <FaUserEdit className="icone-edit" />
+              </Link>
+            )}
+          </styled.DivAluno>
+        ))
       }
     </Container>
   );

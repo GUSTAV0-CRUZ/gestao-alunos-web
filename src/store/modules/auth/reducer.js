@@ -1,7 +1,7 @@
 import * as types from '../types';
 
 const innitialState = {
-  isLogin: false,
+  isLoggedIn: false,
   dadosUser: {},
   token: '',
 };
@@ -11,7 +11,7 @@ export function authReducer(state = innitialState, action) {
   switch (action.type) {
     case types.LOGIN_SUCCESS: {
       if (!action.payload.user) return state;
-      innitialState.isLogin = true;
+      innitialState.isLoggedIn = true;
       innitialState.dadosUser = action.payload.user;
       innitialState.token = action.payload.jsonWebToken;
       // console.log(innitialState);
@@ -19,7 +19,7 @@ export function authReducer(state = innitialState, action) {
     }
     case types.LOGIN_FAILED: {
       const resetaState = {
-        isLogin: false,
+        isLoggedIn: false,
         dadosUser: {},
         token: '',
       };
