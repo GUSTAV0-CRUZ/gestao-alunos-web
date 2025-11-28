@@ -9,7 +9,7 @@ export default function MyRouter({ component: Component, isClose, ...rest }) {
   if (!isLoggedIn && isClose) {
     return (
       <Redirect
-        to={{ pathname: '/login', state: { prevpath: rest.location.state } }}
+        to={{ pathname: '/login', state: { prevpath: rest.location.pathname } }}
       />
     );
   }

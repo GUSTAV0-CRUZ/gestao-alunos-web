@@ -8,7 +8,7 @@ import { Container } from '../../styles/styledGlobal';
 import { Form, DivForm } from './styled';
 import { loginRequest } from '../../store/modules/auth/actions';
 
-export default function Cadastro() {
+export default function Cadastro(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export default function Cadastro() {
 
     if (errors) return 0;
 
-    dispatch(loginRequest({ email, password }));
+    dispatch(loginRequest({ email, password, props }));
     return 0;
   }
 
@@ -44,7 +44,7 @@ export default function Cadastro() {
           </label>
           <label htmlFor="password">
             Senha:
-            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
           <button type="submit">Logar</button>
           <Link to="/register">

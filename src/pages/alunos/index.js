@@ -9,9 +9,7 @@ import store from '../../store';
 
 export default function Alunos() {
   const stateAuth = store.getState().auth;
-  // console.log(stateAuth);
-  // const test = store.getState();
-  // console.log(test);
+  // console.log(store.getState());
 
   const [alunos, setAlunos] = useState([]);
   useEffect(() => {
