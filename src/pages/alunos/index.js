@@ -6,22 +6,26 @@ import axios from '../../services/axios';
 import { Container } from '../../styles/styledGlobal';
 import * as styled from './styled';
 import store from '../../store';
+import Loading from '../../components/loading';
 
 export default function Alunos() {
+  const [isLoading, setIsLoading] = useState(false);
   const stateAuth = store.getState().auth;
   // console.log(store.getState());
 
   const [alunos, setAlunos] = useState([]);
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       const arrayAlunos = await axios.get('/aluno');
       setAlunos(arrayAlunos.data);
+      setIsLoading(false);
     };
     getData();
   }, []);
-
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Alunos</h1>
       {
         alunos.map((aluno) => (

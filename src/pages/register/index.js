@@ -6,15 +6,18 @@ import { Container } from '../../styles/styledGlobal';
 import { Form, DivForm } from './styled';
 import axios from '../../services/axios';
 import history from '../../services/history';
+import Loading from '../../components/loading';
 
 export default function Cadastro() {
   const [nome, setNome] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
-    if (!nome && !email && !password) return toast.error('Preencha os campos antes de enviar');
+    if (!nome && !email && !password) return toast.error('Preencha os campos antes de enviar') && setIsLoading(false);
     let errors = false;
     if (nome.length < 3 || nome.length > 30) {
       toast.error('Nome precisar estar entre 3 a 30 caracteres');
@@ -29,7 +32,7 @@ export default function Cadastro() {
       errors = true;
     }
 
-    if (errors) return 0;
+    if (errors) return setIsLoading(false);
 
     let response;
     try {
@@ -40,19 +43,21 @@ export default function Cadastro() {
       data.errors[0].map((err) => {
         toast.error(err);
         errors = true;
-        return 0;
+        return setIsLoading(false);
       });
     }
 
-    if (errors) return 0;
+    if (errors) return setIsLoading(false);
 
     toast.success(` ${response.data.nome} seu cadastro foi realizado com sucesso, agora faça login.`);
+    setIsLoading(false);
     history.push('/login');
     return 0;
   }
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Cadastrar Usuário:</h1>
       <DivForm>
         <Form onSubmit={(e) => handleSubmit(e)}>

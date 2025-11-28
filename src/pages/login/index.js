@@ -7,15 +7,18 @@ import { useDispatch } from 'react-redux';
 import { Container } from '../../styles/styledGlobal';
 import { Form, DivForm } from './styled';
 import { loginRequest } from '../../store/modules/auth/actions';
+import Loading from '../../components/loading';
 
 export default function Cadastro(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
-    if (!email && !password) return toast.error('Preencha os campos antes de enviar');
+    if (!email && !password) return toast.error('Preencha os campos antes de enviar') && setIsLoading(false);
     let errors = false;
     if (password.length < 6 || password.length > 30) {
       toast.error('Senha precisar estar entre 3 a 50 caracteres');
@@ -26,7 +29,7 @@ export default function Cadastro(props) {
       errors = true;
     }
 
-    if (errors) return 0;
+    if (errors) return setIsLoading(false);
 
     dispatch(loginRequest({ email, password, props }));
     return 0;
@@ -34,6 +37,7 @@ export default function Cadastro(props) {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Login de Usuário:</h1>
       <DivForm>
         <Form onSubmit={(e) => handleSubmit(e)}>
