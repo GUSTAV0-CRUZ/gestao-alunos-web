@@ -19,6 +19,7 @@ function* requestLogin() {
     const stateAuth = yield reduxSaga.select((state) => state.auth);
     const response = yield reduxSaga.call(() => putLogin(stateAuth));
     yield reduxSaga.put(actions.loginSuccess(response));
+    toast.success('Login realizado com sucesso');
   } catch (error) {
     toast.error('Usuário ou senha inválido');
     yield reduxSaga.put(actions.loginFAILED());
@@ -30,7 +31,6 @@ function* saveToken() {
     // console.log('saveToken()');
     const { token, prevpath } = yield reduxSaga.select((state) => state.auth);
     yield axios.defaults.headers.common.authorization = `Bearer ${token}`;
-    toast.success('Login realizado com sucesso');
     if (prevpath !== '') return history.push(prevpath);
     return history.push('/');
   } catch (e) {

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import axios from '../../services/axios';
 
 import { Container } from '../../styles/styledGlobal';
 import { ContainerConfigs, Form, DivButton } from './styled';
@@ -20,8 +22,20 @@ export default function UserConfigs() {
   }
 
   function handleBtnSair() {
+    toast.success('Usuário deslogado com sucesso');
     SetIsLoading(true);
     dispache(actions.loginFAILED());
+  }
+  async function handleBtnExluir() {
+    SetIsLoading(true);
+    try {
+      await axios.delete('/user/');
+      dispache(actions.loginFAILED());
+      toast.success('Conta excluida com sucesso');
+    } catch (e) {
+      toast.error('Erro ao tentar excluir conta');
+      SetIsLoading(false);
+    }
   }
 
   return (
@@ -47,7 +61,7 @@ export default function UserConfigs() {
         </Form>
         <DivButton>
           <button type="button" className="btn-sair-conta" onClick={handleBtnSair}>Sair da conta</button>
-          <button type="button" className="btn-excluir-conta">Excluir conta</button>
+          <button type="button" className="btn-excluir-conta" onClick={handleBtnExluir}>Excluir conta</button>
         </DivButton>
       </ContainerConfigs>
     </Container>
