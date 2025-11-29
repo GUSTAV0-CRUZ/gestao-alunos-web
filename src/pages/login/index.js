@@ -8,6 +8,7 @@ import { Container } from '../../styles/styledGlobal';
 import { Form, DivForm } from './styled';
 import { loginRequest } from '../../store/modules/auth/actions';
 import Loading from '../../components/loading';
+import store from '../../store';
 
 export default function Cadastro(props) {
   const [email, setEmail] = useState('');
@@ -32,7 +33,9 @@ export default function Cadastro(props) {
     if (errors) return setIsLoading(false);
 
     dispatch(loginRequest({ email, password, props }));
-    return 0;
+
+    const loggedIn = await store.getState().auth.isLoggedIn;
+    return setIsLoading(!loggedIn);
   }
 
   return (

@@ -12,7 +12,6 @@ export function authReducer(state = innitialState, action) {
   switch (action.type) {
     case types.LOGIN_SUCCESS: {
       if (!action.payload.user) return state;
-
       const newState = {
         isLoggedIn: true,
         dataUser: action.payload.user,
@@ -38,6 +37,7 @@ export function authReducer(state = innitialState, action) {
       }
       const { email, password } = action.payload;
       const newState = {
+        ...state,
         dataUser: { email, password },
       };
       // console.log('request: ', newState);
