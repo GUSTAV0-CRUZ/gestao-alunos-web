@@ -8,12 +8,14 @@ import Alunos from '../pages/alunos';
 import ManipulaAlunos from '../pages/manipulaAlunos';
 import Cadastro from '../pages/register';
 import CriaAluno from '../pages/criaAluno';
+import UserConfigs from '../pages/userConfigs';
 
 export default function Routes() {
   return (
     <Switch>
       <MyRouter exact path="/" component={Alunos} />
       <MyRouter exact path="/register" component={Cadastro} />
+      <MyRouter exact path="/userConfigs" component={UserConfigs} isClose />
       <MyRouter exact path="/login" component={Login} />
       <MyRouter exact path="/aluno" component={CriaAluno} isClose />
       <MyRouter exact path="/aluno/:id" component={ManipulaAlunos} isClose />

@@ -41,4 +41,5 @@ function* saveToken() {
 export default reduxSaga.all([
   reduxSaga.takeLatest(types.LOGIN_REQUEST, requestLogin),
   reduxSaga.takeLatest(types.LOGIN_SUCCESS, saveToken),
+  reduxSaga.takeLatest(types.LOGIN_FAILED, saveToken),
 ]);
