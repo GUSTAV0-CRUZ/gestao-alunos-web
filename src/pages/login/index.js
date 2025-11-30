@@ -33,9 +33,13 @@ export default function Cadastro(props) {
     if (errors) return setIsLoading(false);
 
     dispatch(loginRequest({ email, password, props }));
-
-    const loggedIn = await store.getState().auth.isLoggedIn;
-    return setIsLoading(!loggedIn);
+    try {
+      const loggedIn = await store.getState().auth.isLoggedIn;
+      setIsLoading(loggedIn);
+    } catch (err) {
+      setIsLoading(false);
+    }
+    return 0;
   }
 
   return (
