@@ -7,6 +7,10 @@ const innitialState = {
   prevpath: '',
 };
 
+const updateBackupErrors = {
+  stastebefore: {},
+};
+
 // eslint-disable-next-line default-param-last
 export function authReducer(state = innitialState, action) {
   switch (action.type) {
@@ -21,6 +25,7 @@ export function authReducer(state = innitialState, action) {
       // console.log('success: ', newState);
       return newState;
     }
+
     case types.LOGIN_FAILED: {
       // console.log(innitialState);
       const resetaState = {
@@ -30,6 +35,7 @@ export function authReducer(state = innitialState, action) {
       };
       return resetaState;
     }
+
     case types.LOGIN_REQUEST: {
       innitialState.prevpath = '';
       if (action.payload.props.location.state) {
@@ -42,6 +48,29 @@ export function authReducer(state = innitialState, action) {
       };
       // console.log('request: ', newState);
       return newState;
+    }
+
+    case types.USER_UPDATE_REQUEST: {
+      const {
+        emailInput, nomeInput, password,
+      } = action.payload;
+
+      const changeEmail = emailInput !== state.dataUser.email;
+      const stateUpdate = {
+        ...state,
+        dataUser: {
+          email: emailInput, password, nome: nomeInput, id: state.dataUser.id,
+        },
+        changeEmail,
+      };
+
+      updateBackupErrors.stastebefore = state;
+
+      return stateUpdate;
+    }
+
+    case types.USER_UPDATE_FAILED: {
+      return updateBackupErrors.stastebefore;
     }
     default:
       return state;

@@ -12,8 +12,21 @@ export function loginSuccess(payload) {
     payload,
   };
 }
-export function loginFAILED() {
+export function loginFailed() {
   return {
     type: types.LOGIN_FAILED,
+  };
+}
+
+export function userUpdateRequest(payload) {
+  return {
+    type: types.USER_UPDATE_REQUEST,
+    payload,
+  };
+}
+
+export function userUpdateFailed() {
+  return {
+    type: types.USER_UPDATE_FAILED,
   };
 }
