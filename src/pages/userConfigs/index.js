@@ -4,10 +4,13 @@ import { toast } from 'react-toastify';
 import axios from '../../services/axios';
 
 import { Container } from '../../styles/styledGlobal';
-import { ContainerConfigs, Form, DivButton } from './styled';
+import {
+  ContainerConfigs, Form, DivButton,
+} from './styled';
 import store from '../../store';
 import * as actions from '../../store/modules/auth/actions';
 import Loading from '../../components/loading';
+import MsgConfirmation, { toUseMsg, BtnOkAction } from '../../components/msgConfirmacao';
 
 export default function UserConfigs() {
   const { email, nome } = store.getState().auth.dataUser;
@@ -15,7 +18,9 @@ export default function UserConfigs() {
   const [emailInput, setEmailInput] = useState(email);
   const [password, setPassword] = useState('');
   const dispache = useDispatch();
-  const [isLoading, SetIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [containMsg, setContainMsg] = useState(false);
+  const [opitionUser, SetOpitionUser] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -23,24 +28,29 @@ export default function UserConfigs() {
 
   function handleBtnSair() {
     toast.success('Usuário deslogado com sucesso');
-    SetIsLoading(true);
+    setIsLoading(true);
     dispache(actions.loginFAILED());
   }
-  async function handleBtnExluir() {
-    SetIsLoading(true);
+
+  async function handleExcluiConta() {
+    if (!opitionUser) return SetOpitionUser(false);
+    setIsLoading(true);
     try {
       await axios.delete('/user/');
       dispache(actions.loginFAILED());
       toast.success('Conta excluida com sucesso');
     } catch (e) {
-      toast.error('Erro ao tentar excluir conta');
-      SetIsLoading(false);
+      toast.error('Erro ao tentar excluir a conta');
+      setIsLoading(false);
     }
+    return SetOpitionUser(false);
   }
 
   return (
     <Container>
       <Loading isLoading={isLoading} />
+      <MsgConfirmation isMsg={containMsg} acao={SetOpitionUser} />
+      <BtnOkAction onClick={() => handleExcluiConta()} opitionUser={opitionUser} />
       <h1>Configurações do usuário</h1>
       <ContainerConfigs>
         <p>Informações</p>
@@ -61,7 +71,7 @@ export default function UserConfigs() {
         </Form>
         <DivButton>
           <button type="button" className="btn-sair-conta" onClick={handleBtnSair}>Sair da conta</button>
-          <button type="button" className="btn-excluir-conta" onClick={handleBtnExluir}>Excluir conta</button>
+          <button type="button" className="btn-excluir-conta" onClick={() => toUseMsg({ setIsLoading, setContainMsg })}>Excluir conta</button>
         </DivButton>
       </ContainerConfigs>
     </Container>
