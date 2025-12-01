@@ -36,7 +36,7 @@ export default function Alunos() {
             <p>{`${aluno.nome} ${aluno.sobrenome}`}</p>
             <p className="p-email">{aluno.email}</p>
             {stateAuth.isLoggedIn && (
-              <Link to={`/aluno/:${aluno.id}`}>
+              <Link to={`/aluno/${aluno.id}`}>
                 <FaUserEdit className="icone-edit" />
               </Link>
             )}

@@ -30,3 +30,9 @@ export function userUpdateFailed() {
     type: types.USER_UPDATE_FAILED,
   };
 }
+
+export function atualizaTokenAxios() {
+  return {
+    type: types.ATUALIZA_TOKEN_AXIOS,
+  };
+}

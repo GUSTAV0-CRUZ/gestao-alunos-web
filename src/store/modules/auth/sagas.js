@@ -57,11 +57,12 @@ function* requestUpdate() {
   }
 }
 
-function* saveToken() {
+function* saveToken(atualiza) {
   try {
     // console.log('saveToken()');
     const { token, prevpath } = yield reduxSaga.select((state) => state.auth);
     yield axios.defaults.headers.common.authorization = `Bearer ${token}`;
+    if (atualiza.atualiza) return 0;
     if (prevpath !== '') return history.push(prevpath);
     return history.push('/');
   } catch (e) {
@@ -75,4 +76,5 @@ export default reduxSaga.all([
   reduxSaga.takeLatest(types.LOGIN_FAILED, saveToken),
   reduxSaga.takeLatest(types.USER_UPDATE_REQUEST, requestUpdate),
   reduxSaga.takeLatest(types.USER_UPDATE_FAILED, saveToken),
+  reduxSaga.takeLatest(types.ATUALIZA_TOKEN_AXIOS, () => saveToken({ atualiza: true })),
 ]);
