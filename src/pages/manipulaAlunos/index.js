@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { isEmail } from 'validator';
 
 import axios from '../../services/axios';
 import { Container } from '../../styles/styledGlobal';
 import { DivBackground, DivCentral } from './styled';
 import { atualizaTokenAxios } from '../../store/modules/auth/actions';
 import history from '../../services/history';
+import Loading from '../../components/loading';
 
 export default function ManipulaAlunos(props) {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ export default function ManipulaAlunos(props) {
   const [inputIdade, setInputIdade] = useState(idade);
   const [inputAltura, setInputAltura] = useState(altura);
   const [inputPeso, setInputPeso] = useState(peso);
+  const [isLoading, setIsLoading] = useState(false);
 
   function updateValueInput() {
     setInputNome(nome);
@@ -40,6 +43,7 @@ export default function ManipulaAlunos(props) {
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true);
       try {
         const { match } = props;
         setUrl(match.url);
@@ -52,6 +56,7 @@ export default function ManipulaAlunos(props) {
         setIdade(aluno.idade);
         setAltura(aluno.altura);
         setPeso(aluno.peso);
+        setIsLoading(false);
       } catch (e) {
         toast.error('Erro ao tentar exibir aluno');
         history.push('/');
@@ -62,29 +67,72 @@ export default function ManipulaAlunos(props) {
   }, [nome]);
 
   async function handleExlude() {
+    setIsLoading(true);
     try {
       await axios.delete(url);
       history.push('/');
-      toast.success('Exluido com sucesso');
+      toast.success('Aluno exluido com sucesso');
     } catch (e) {
       toast.error('Erro ao tentar excluir aluno');
+      setIsLoading(false);
     }
   }
 
-  function handleEdit() {
-    const alunoEdig = {
-      inputNome,
-      inputSobrenome,
-      inputEmail,
-      inputIdade,
-      inputAltura,
-      inputPeso,
-    };
-    console.log(alunoEdig);
+  async function handleEdit() {
+    setIsLoading(true);
+    if (inputNome === nome
+      && inputSobrenome === sobrenome
+      && inputEmail === email
+      && inputIdade === idade
+      && inputAltura === altura
+      && inputPeso === peso
+    ) return toast.error('Aluno sem alterações') && setIsLoading(false);
+
+    let errors = false;
+
+    if (inputNome.length < 3 || inputNome.length > 30) {
+      toast.error('Nome precisar estar entre 3 a 20 caracteres');
+      errors = true;
+    }
+
+    if (inputSobrenome.length < 3 || inputSobrenome.length > 20) {
+      toast.error('Sobrenome precisar estar entre 3 a 30 caracteres');
+      errors = true;
+    }
+
+    if (!isEmail(email)) {
+      toast.error('E-mail inválido');
+      errors = true;
+    }
+
+    if (inputIdade < 3 || inputIdade > 130) {
+      toast.error('Idade presisa estar entre 3 a 130 anos');
+      errors = true;
+    }
+
+    if (errors) return setIsLoading(false);
+
+    try {
+      await axios.put(url, {
+        nome: inputNome,
+        sobrenome: inputSobrenome,
+        email: inputEmail,
+        idade: inputIdade,
+        ...(inputAltura !== '' ? { altura: inputAltura } : { altura: 0 }),
+        ...(inputPeso !== '' ? { peso: inputPeso } : { peso: 0 }),
+      });
+      toast.success('Aluno editado com sucesso');
+      setIsLoading(false);
+    } catch (e) {
+      toast.error('Erro ao tentar editar aluno');
+      setIsLoading(false);
+    }
+    return setIsLoading(false);
   }
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>ManipulaAlunos</h1>
       <div>
         <DivBackground>
@@ -113,15 +161,15 @@ export default function ManipulaAlunos(props) {
               </label>
               <label htmlFor="idade">
                 Idade:
-                <input onChange={(e) => setInputIdade(e.target.value)} type="text" value={inputIdade} />
+                <input onChange={(e) => setInputIdade(e.target.value)} type="number" value={inputIdade} />
               </label>
               <label htmlFor="altura">
                 Altura:
-                <input onChange={(e) => setInputAltura(e.target.value)} type="text" value={inputAltura} />
+                <input onChange={(e) => setInputAltura(e.target.value)} type="number" value={inputAltura} />
               </label>
               <label htmlFor="peso">
                 Peso:
-                <input onChange={(e) => setInputPeso(e.target.value)} type="text" value={inputPeso} />
+                <input onChange={(e) => setInputPeso(e.target.value)} type="number" value={inputPeso} />
               </label>
               <div className="div-btn">
                 <button onClick={handleEdit} type="button" className="btn-edit-exlude">Editar</button>
