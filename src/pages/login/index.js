@@ -1,24 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { isEmail } from 'validator';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { Title } from './styled';
 import { Container } from '../../styles/styledGlobal';
-import * as actions from '../../store/modules/example/actions';
+import { Form, DivForm } from './styled';
+import { loginRequest } from '../../store/modules/auth/actions';
+import Loading from '../../components/loading';
+import store from '../../store';
 
-export default function Login() {
+export default function Cadastro(props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleClick(e) {
+  async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
-    dispatch(actions.clicaBotaoRequest());
+    if (!email && !password) return toast.error('Preencha os campos antes de enviar') && setIsLoading(false);
+    let errors = false;
+    if (password.length < 6 || password.length > 30) {
+      toast.error('Senha precisar estar entre 3 a 50 caracteres');
+      errors = true;
+    }
+    if (!isEmail(email)) {
+      toast.error('E-mail inválido');
+      errors = true;
+    }
+
+    if (errors) return setIsLoading(false);
+
+    dispatch(loginRequest({ email, password, props }));
+    try {
+      const loggedIn = await store.getState().auth.isLoggedIn;
+      setIsLoading(loggedIn);
+    } catch (err) {
+      setIsLoading(false);
+    }
+    return 0;
   }
+
   return (
     <Container>
-      <Title>
-        Login
-      </Title>
-      <p>lorec dcedwcde wcedcedc vfmvfjnfj cfdcdsc dcdcd</p>
-      <button type="button" onClick={handleClick}>Enviar</button>
+      <Loading isLoading={isLoading} />
+      <h1>Login de Usuário:</h1>
+      <DivForm>
+        <Form onSubmit={(e) => handleSubmit(e)}>
+          <h2>Realizar login</h2>
+          <label htmlFor="email">
+            E-mail:
+            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </label>
+          <label htmlFor="password">
+            Senha:
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </label>
+          <button type="submit">Logar</button>
+          <Link to="/register">
+            <button type="button">Cadastrar</button>
+          </Link>
+        </Form>
+      </DivForm>
     </Container>
   );
 }

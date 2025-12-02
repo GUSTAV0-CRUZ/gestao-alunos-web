@@ -48,8 +48,8 @@ export const Form = styled.form`
 
   button {
     margin-top: 10px;
-    width: 19em;
-    height: 2.5em;
+    width: 17em;
+    height: 2.7em;
     box-shadow: 3px 3px 5px black;
     box-shadow: 3px 3px 7px black, -3px -3px 7px white;
   }
@@ -72,4 +72,4 @@ export const DivForm = styled.div`
   border-radius: 30px;
   border: solid ${colors.colorPrimary} 0.2em;
   box-shadow: 3px 3px 5px black;
-`;
+  `;

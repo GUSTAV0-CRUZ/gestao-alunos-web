@@ -1,14 +1,15 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import store from '../store';
 
 export default function MyRouter({ component: Component, isClose, ...rest }) {
-  const isLoggedIn = false;
+  const { isLoggedIn } = store.getState().auth;
 
   if (!isLoggedIn && isClose) {
     return (
       <Redirect
-        to={{ pathname: '/login', state: { prevpath: rest.location.state } }}
+        to={{ pathname: '/login', state: { prevpath: rest.location.pathname } }}
       />
     );
   }

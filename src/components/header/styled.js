@@ -12,4 +12,8 @@ export const Nav = styled.nav`
     color: aliceblue;
     margin: 0 2vw;
   }
+
+  .cria-aluno {
+    font-size: 1.3em;
+  }
 `;
