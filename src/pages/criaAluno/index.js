@@ -21,6 +21,8 @@ export default function CriaAluno() {
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [urlViewImagem, setUrlViewImagem] = useState('null');
+  const [picture, setPicture] = useState({});
 
   async function handleCreat() {
     setIsLoading(true);
@@ -57,10 +59,23 @@ export default function CriaAluno() {
         ...(altura !== '' ? { altura } : { altura: 0 }),
         ...(peso !== '' ? { peso } : { peso: 0 }),
       });
+
+      if (picture?.type) {
+        const formData = new FormData();
+        formData.append('id_aluno', response.data.id);
+        formData.append('picture', picture);
+        await axios.post('/picture/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+
       toast.success('Aluno criado com sucesso');
       history.push(`/aluno/${response.data.id}`);
     } catch (e) {
       setIsLoading(false);
+      // console.log(e);
       if (e?.response?.data[0]) return toast.error(e.response.data[0]);
 
       return toast.error('Erro ao tentar criar aluno');
@@ -68,10 +83,29 @@ export default function CriaAluno() {
     return setIsLoading(false);
   }
 
+  function handleUpload(e) {
+    setIsLoading(true);
+    try {
+      const fileUpload = e.target.files[0];
+      const imgPartName = fileUpload.type.slice(0, 6);
+
+      if (imgPartName !== 'image/') return toast.error('Adicone uma imagem') && setIsLoading(false);
+      const viewImagem = URL.createObjectURL(e.target.files[0]);
+      setUrlViewImagem(viewImagem);
+
+      setPicture(fileUpload);
+      setIsLoading(false);
+      return toast.success('Imagem selecionada');
+    } catch (err) {
+      setIsLoading(false);
+      return toast.error('Erro ao visualizar imagem');
+    }
+  }
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>CriaAluno</h1>
+      <h1>Adicionar aluno</h1>
       <div>
         <DivBackground>
           <DivCentral>
@@ -79,7 +113,15 @@ export default function CriaAluno() {
               {`${nome} ${sobrenome}`}
             </h2>
             <div className="div-img">
-              <FaRegUserCircle className="icone-faUser" />
+              <label htmlFor="uplodad-imagem" className="label-upload">
+                {
+                  urlViewImagem !== 'null' ? <img src={urlViewImagem} alt="" /> : <FaRegUserCircle className="icone-faUser" />
+                }
+                {
+                  urlViewImagem === 'null' && <p>Adicionar imagem</p>
+                }
+                <input type="file" className="btn-upload" id="uplodad-imagem" onChange={handleUpload} />
+              </label>
             </div>
             <form>
               <label htmlFor="nome">
@@ -92,7 +134,7 @@ export default function CriaAluno() {
               </label>
               <label htmlFor="email">
                 E-mail:
-                <input onChange={(e) => setEmail(e.target.value)} type="text" value={email} />
+                <input onChange={(e) => setEmail(e.target.value)} type="email" value={email} />
               </label>
               <label htmlFor="idade">
                 Idade:
@@ -107,7 +149,7 @@ export default function CriaAluno() {
                 <input onChange={(e) => setPeso(e.target.value)} type="number" value={peso} />
               </label>
               <div className="div-btn">
-                <button onClick={handleCreat} type="button" className="btn-cria">Criar</button>
+                <button onClick={handleCreat} type="button" className="btn-cria">Adicionar</button>
               </div>
             </form>
           </DivCentral>
@@ -116,7 +158,3 @@ export default function CriaAluno() {
     </Container>
   );
 }
-
-// {
-// dataUser.Pictures && dataUser.Pictures.length !== 0 ? <img src={`http://50.19.59.67/images/${dataUser.Pictures[0].filename}`} alt="" /> : <FaRegUserCircle className="icone-faUser" />
-// }

@@ -21,20 +21,52 @@ export const DivCentral = styled.div`
   }
 
   .div-img {
+    display: flex;
+    flex-direction: column;
     margin-top: 1vh;
     font-size: 10em;
-    display: flex;
     align-content: end;
-    margin-bottom: 3vh;
+    margin-bottom: 1vh;
+    width: auto;
+    height: 1.5em;
+    min-height: 20vh;
+
+    .btn-upload {
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .label-upload {
+      width: 0.9em;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 50%;
+      border: solid ${colors.colorPrimary} 0.03em;
+      box-shadow: 3px 3px 7px black, -3px -3px 7px white;
+    }
+
+    p {
+      background-color: ${colors.bgDark};
+      color: ${colors.textMainDark};
+      position: absolute;
+      font-size: 0.06em;
+      margin-top: 5vh;
+      border: 2px solid ${colors.colorPrimary};
+      border-radius: 1em;
+      padding: 5px;
+    }
+
+    .icone-faUser {
+      font-size: 0.9em;
+    }
+
   }
 
   img {
-    width: 1.2em;
-    border-radius: 50%;
-    border: solid ${colors.colorPrimary} 0.05em;
-    box-shadow: 3px 3px 7px black, -3px -3px 7px white;
+    width: 1em;
+    height: 0.9em;
   }
-
 
   label {
     margin-top: 0.7vh;
@@ -44,7 +76,7 @@ export const DivCentral = styled.div`
     box-shadow: 1px 1px 2px black, -2px -2px 4px black;
     align-items: center;
     justify-content: center;
-    padding: 0.2em;
+    /* padding: 0.2em; */
 
 
     input {
