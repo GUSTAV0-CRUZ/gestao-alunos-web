@@ -115,7 +115,7 @@ export default function CriaAluno() {
             <div className="div-img">
               <label htmlFor="uplodad-imagem" className="label-upload">
                 {
-                  urlViewImagem !== 'null' ? <img src={urlViewImagem} alt="" /> : <FaRegUserCircle className="icone-faUser" />
+                  urlViewImagem !== 'null' ? <img src={urlViewImagem} alt="foto de perfil do aluno" /> : <FaRegUserCircle className="icone-faUser" />
                 }
                 {
                   urlViewImagem === 'null' && <p>Adicionar imagem</p>

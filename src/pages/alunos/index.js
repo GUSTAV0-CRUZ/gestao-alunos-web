@@ -26,7 +26,7 @@ export default function Alunos() {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>Alunos</h1>
+      <h1>Alunos Registrados</h1>
       {
         alunos.map((aluno) => (
           <styled.DivAluno key={aluno.id}>

@@ -87,8 +87,8 @@ export const DivCentral = styled.div`
       height: 20px;
       text-align: center;
       border: none;
-
     }
+
     input:focus {
       box-shadow: 3px 3px 5px black;
     }

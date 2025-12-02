@@ -22,6 +22,9 @@ export const DivAluno = styled.div`
     font-size: 50px;
     display: flex;
     align-content: end;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 1.2em;
   }
 
   img {

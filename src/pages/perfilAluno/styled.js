@@ -20,6 +20,36 @@ export const DivCentral = styled.div`
     font-size: 2.3em;
   }
 
+  .label-upload {
+    width: 0.89em;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: solid ${colors.colorPrimary} 0.03em;
+    box-shadow: 3px 3px 7px black, -3px -3px 7px white;
+    padding: 0;
+
+  .icone-faUser {
+    font-size: 1em;
+  }
+
+  }
+
+  .btn-upload {
+    display: none;
+  }
+
+  p {
+    background-color: ${colors.bgDark};
+    color: ${colors.textMainDark};
+    position: absolute;
+    font-size: 0.06em;
+    margin-top: 5vh;
+    border: 2px solid ${colors.colorPrimary};
+    border-radius: 1em;
+    padding: 5px;
+  }
+
   .div-img {
     margin-top: 1vh;
     font-size: 10em;
@@ -29,12 +59,10 @@ export const DivCentral = styled.div`
   }
 
   img {
-    width: 1.2em;
+    width: 99.9%;
+    object-fit: contain;
     border-radius: 50%;
-    border: solid ${colors.colorPrimary} 0.05em;
-    box-shadow: 3px 3px 7px black, -3px -3px 7px white;
   }
-
 
   label {
     margin-top: 0.7vh;
@@ -86,6 +114,7 @@ export const DivCentral = styled.div`
     width: 65vw;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px;
 
     .btn-edit-exlude {
       font-size: 15px;
@@ -101,7 +130,7 @@ export const DivCentral = styled.div`
 `;
 
 export const DivBackground = styled.div`
-  height: 40em;
+  height: 41em;
   display: flex;
   justify-content: center;
   margin-top: 1em;

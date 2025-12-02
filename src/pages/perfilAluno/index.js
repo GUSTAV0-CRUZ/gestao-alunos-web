@@ -30,6 +30,7 @@ export default function ManipulaAlunos(props) {
   const [inputAltura, setInputAltura] = useState(altura);
   const [inputPeso, setInputPeso] = useState(peso);
   const [isLoading, setIsLoading] = useState(false);
+  const [updatePicture, setUpdatePicture] = useState(false);
 
   function updateValueInput() {
     setInputNome(nome);
@@ -64,7 +65,7 @@ export default function ManipulaAlunos(props) {
     }
     getData();
     updateValueInput();
-  }, [nome]);
+  }, [nome, sobrenome, updatePicture]);
 
   async function handleExlude() {
     setIsLoading(true);
@@ -122,6 +123,8 @@ export default function ManipulaAlunos(props) {
         ...(inputPeso !== '' ? { peso: inputPeso } : { peso: 0 }),
       });
       toast.success('Aluno editado com sucesso');
+      setNome(inputNome);
+      setSobrenome(inputSobrenome);
       setIsLoading(false);
     } catch (e) {
       toast.error('Erro ao tentar editar aluno');
@@ -130,10 +133,36 @@ export default function ManipulaAlunos(props) {
     return setIsLoading(false);
   }
 
+  async function handleUpload(e) {
+    setIsLoading(true);
+    try {
+      const fileUpload = e.target.files[0];
+      const imgPartName = fileUpload.type.slice(0, 6);
+
+      if (imgPartName !== 'image/') return toast.error('Adicone uma imagem') && setIsLoading(false);
+      const id = url.replace('/aluno/', '');
+      const formData = new FormData();
+      formData.append('id_aluno', id);
+      formData.append('picture', fileUpload);
+      await axios.post('/picture/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setIsLoading(false);
+      // eslint-disable-next-line no-unneeded-ternary
+      setUpdatePicture(updatePicture === true ? false : true);
+      return toast.success('Imagem alterada com sucesso');
+    } catch (err) {
+      setIsLoading(false);
+      return toast.error('Erro ao alterada imagem');
+    }
+  }
+
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>ManipulaAlunos</h1>
+      <h1>Perfil do Aluno</h1>
       <div>
         <DivBackground>
           <DivCentral>
@@ -142,9 +171,15 @@ export default function ManipulaAlunos(props) {
               {/* {console.log(dataUser)} */}
             </h2>
             <div className="div-img">
-              {
-              dataUser.Pictures && dataUser.Pictures.length !== 0 ? <img src={`http://50.19.59.67/images/${dataUser.Pictures[0].filename}`} alt="" /> : <FaRegUserCircle className="icone-faUser" />
-              }
+              <label htmlFor="uplodad-imagem" className="label-upload">
+                {
+                dataUser.Pictures && dataUser.Pictures.length !== 0 ? <img src={`http://50.19.59.67/images/${dataUser.Pictures[0].filename}`} alt="foto de perfil do aluno" /> : <FaRegUserCircle className="icone-faUser" />
+                }
+                {
+                dataUser.Pictures && dataUser.Pictures.length === 0 && <p>Adicionar imagem</p>
+                }
+                <input type="file" className="btn-upload" id="uplodad-imagem" onChange={handleUpload} />
+              </label>
             </div>
             <form>
               <label htmlFor="nome">
