@@ -11,7 +11,7 @@
 
 A aplicação está hospedada e rodando em um servidor na AWS.
 
-[**🔗 Clique aqui para acessar o sistema**](http://50.19.59.67)
+[**🔗 Clique aqui para acessar o sistema**](https://tinyurl.com/2xa55zw9)
 
 ⚠️ **Nota:** *Como o projeto está hospedado em um IP público via HTTP (sem domínio configurado), seu navegador pode exibir um aviso de "Não seguro". Isso é esperado neste ambiente de desenvolvimento.*
 
